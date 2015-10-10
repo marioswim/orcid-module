@@ -1,0 +1,123 @@
+<?php
+
+require_once("includes/cron.php");
+require_once("includes/DB.php");
+
+/*
+* Funcion principal del modulo, desde aqui, se realizan todos los callbacks.
+* tiene defenido el frontend, con la url /orcid. Y el menu de amdministracion del backend
+*/
+
+function Orcid_menu()
+{
+	$items['publicaciones']=array(
+		'title'=>t("Publications",array(),array('langcode' => 'en')),
+		'type' => MENU_CALLBACK,
+		'page callback'=>'Orcid_mostrar',
+		'access callback'=> TRUE,
+
+		);
+	$items['admin/structure/Orcid'] = array(
+    'title' => 'Orcid',
+    'description' => 'Configuración de las publicaciones de Orcid.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('orcid_configuracion'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'templates/configuration.admin.inc',
+  );
+
+
+	return $items;
+}
+
+
+
+/*
+* Declara el bloque en el backend.
+*/
+function Orcid_block_info()
+{
+	$blocks["tipo_publicaciones"]=array(
+		'info' => "Filtrar por tipo de publicación que muestra ORCID",
+		);
+	return $blocks;
+}
+
+/*
+* accion para cada tipo de bloque dle modulo
+*/ 
+function Orcid_block_view($delta='')
+{
+	switch ($delta) 
+	{
+		case 'tipo_publicaciones':
+			$block["content"]=Orcid_bloque();
+			return $block;
+	}
+}
+/*
+* esta funcion, no es un hook nativo de drupal, es una funcion definida, que la que empieza todo el proceso de renderizado de las 
+* publicaciones.
+* 
+* Coge los tipos de variables que se hayan guardado en el panel de administracion, y se las pasa a una consulta SQL ¡¡DINAMICA!!
+* para mostrar solo ese tipo de publicaciones establecidas.
+* por ultimo, se llama al hook_theme pasandole las publicaciones como parametro.
+* Hay que indicar en todas las funciones que llamen al theme quien es el que inicio el callbackla llamada
+*/
+function Orcid_mostrar()
+{
+	$types=variable_get("tipo_publicaciones");
+	$results=pedirPublicaciones($types);
+
+
+	$variables=array(
+		'message' => $results,
+		);
+	return theme('Orcid_mostrar',$variables);
+}
+
+
+function Orcid_bloque()
+{
+	$results=array();
+
+	$types=variable_get("tipo_publicaciones");
+
+	$variables=array(
+		"message" => $types,
+		);
+
+	return theme('Orcid_bloque',$variables);
+}
+
+
+
+/*
+* Carga el tpl, para finalmente renedizar las publicaciones.
+*/
+function Orcid_theme()
+{
+	return array(
+		'Orcid_mostrar'=> array(
+			'template'=>'templates/publications',
+			),
+		'Orcid_bloque' => array(
+			'template' => 'templates/bloque',
+			),
+
+		);
+
+}
+
+/*
+* Ejecuta esta funcion cada vez que se ejecuta el administrador de tareas de drupal.
+*/
+function Orcid_cron()
+{
+	
+	if(date("H")=="00")
+	{
+		dd("cron orcid");
+		getOrcidPublications();
+	}
+}

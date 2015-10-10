@@ -1,0 +1,99 @@
+#orcid-module
+{
+	margin-top: 10px;
+}
+#group-by-year
+{
+	margin-bottom: 5px;
+}
+#year
+{
+	border: 2px solid #D2D2D2;
+	border-bottom: 1px solid #D2D2D2;
+	margin-bottom: 0px;
+	text-indent: 10px;
+	padding: 2px 0px;
+	font-size: 20px;
+	font-weight: 600;
+	color:#428BCA;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+#year img
+ {
+ 	width: 10px;
+ 	margin-right: 5px;
+ 	vertical-align: middle;
+ }
+
+#orcid-module-works-container
+{
+	padding: 15px;
+	border: 2px solid #D2D2D2;
+	border-top:1px solid #D2D2D2;
+	display: none;
+}
+#orcid-module-work
+{
+	display: block;
+	padding: 5px;
+	margin-bottom: 10px;
+	border: 1px solid #C9CACB;
+	box-shadow: 2px 2px 5px #C9CACB;
+
+}
+
+#orcid-module-work span
+{
+	display: block;
+}
+#orcid-module-work #title
+{
+	color:#494A4C;
+	display: inline;
+}
+#orcid-module-work #author
+{
+	display: inline;
+}
+#orcid-module-work #journal
+{
+	display: inline;
+}
+#orcid-module-work .info
+{
+	color:#939598;
+}
+.rotate0
+{
+	-webkit-animation-duration: 2s;
+    animation-duration: 2s;
+	-ms-transform: rotate(0deg); /* IE 9 */
+    -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+    transform: rotate(0deg);
+    
+}
+.rotate90
+{
+	-webkit-animation-duration: 2s;
+    animation-duration: 2s;
+	-ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg);
+    
+}
+
+#orcid-module-work #title
+{
+	font-size: 1.4em;
+}
+#orcid-module-work .info,
+#orcid-module-work #journal
+{
+	font-size: 1.15em;
+}
+
+#block-orcid-tipo-publicaciones .selected
+{
+	background-color: rgba(66, 139, 202, 0.19);
+}
